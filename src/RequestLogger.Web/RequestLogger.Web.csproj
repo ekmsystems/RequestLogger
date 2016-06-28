@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="RequestLoggerModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestLogHandler.cs" />
     <Compile Include="ResponseFilterStream.cs" />
     <Compile Include="StreamExtensions.cs" />
   </ItemGroup>
