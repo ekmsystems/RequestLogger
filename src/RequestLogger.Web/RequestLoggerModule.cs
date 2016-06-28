@@ -35,7 +35,7 @@ namespace RequestLogger.Web
 
         private void ContextOnBeginRequest(object sender, EventArgs eventArgs)
         {
-            var context = ((HttpApplication)sender).Context;
+            var context = ((HttpApplication) sender).Context;
 
             if (ShouldNotLog(context.Request))
                 return;
@@ -45,7 +45,7 @@ namespace RequestLogger.Web
 
         private void ContextOnEndRequest(object sender, EventArgs eventArgs)
         {
-            var context = ((HttpApplication)sender).Context;
+            var context = ((HttpApplication) sender).Context;
 
             if (ShouldNotLog(context.Request))
                 return;
@@ -58,7 +58,7 @@ namespace RequestLogger.Web
 
         private void ContextOnError(object sender, EventArgs eventArgs)
         {
-            var context = ((HttpApplication)sender).Context;
+            var context = ((HttpApplication) sender).Context;
             var requestData = ExtractRequestData(context.Request);
             var responseData = ExtractResponseData(context.Response);
             var ex = context.Server.GetLastError();
@@ -103,7 +103,7 @@ namespace RequestLogger.Web
         private static byte[] GetRequestContent(HttpRequest request)
         {
             if (!request.InputStream.CanSeek)
-                return new byte[] { };
+                return new byte[] {};
 
             try
             {
@@ -124,7 +124,7 @@ namespace RequestLogger.Web
 
         private static byte[] GetResponseContent(HttpResponse response)
         {
-            return ((ResponseFilterStream)response.Filter).ReadStream();
+            return ((ResponseFilterStream) response.Filter).ReadStream();
         }
     }
 }
