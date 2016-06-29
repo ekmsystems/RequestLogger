@@ -53,29 +53,26 @@ namespace RequestLogger.Loggers
 
         private void WriteHeader(string header)
         {
-            _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Cyan, header);
+            _configuration.LogWriter.WriteLine(ConsoleColor.Cyan, header);
         }
 
         private void WriteKeyValuePair(string key, string value)
         {
-            _configuration.ConsoleLogWriter.Write(ConsoleColor.Blue, key);
-            _configuration.ConsoleLogWriter.Write(ConsoleColor.White, ":");
-            _configuration.ConsoleLogWriter.Write(ConsoleColor.Yellow, value);
-            _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Black, "");
+            _configuration.LogWriter.Write(ConsoleColor.Blue, key);
+            _configuration.LogWriter.Write(ConsoleColor.White, ": ");
+            _configuration.LogWriter.Write(ConsoleColor.Yellow, value);
+            _configuration.LogWriter.WriteLine(ConsoleColor.Black, "");
         }
 
         private void WriteHeaderValues(IDictionary<string, string[]> headers)
         {
-            _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Blue, "Headers");
+            _configuration.LogWriter.WriteLine(ConsoleColor.Blue, "Headers");
 
             foreach (var key in headers.Keys)
             {
-                _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Blue, "\t{0}", key);
-
-                foreach (var value in headers[key])
-                {
-                    _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Yellow, "\t\t{0}", value);
-                }
+                _configuration.LogWriter.Write(ConsoleColor.Blue, "\t{0}");
+                _configuration.LogWriter.Write(ConsoleColor.White, ": ");
+                _configuration.LogWriter.WriteLine(ConsoleColor.Blue, string.Join(";", headers[key]));
             }
         }
 

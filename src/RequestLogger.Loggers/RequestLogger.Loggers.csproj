@@ -36,7 +36,7 @@
   <ItemGroup>
     <Compile Include="ConsoleRequestLogger.cs" />
     <Compile Include="ConsoleRequestLoggerConfiguration.cs" />
-    <Compile Include="LogWriters\ConsoleLogWriter.cs" />
+    <Compile Include="ConsoleRequestLogWriter.cs" />
     <Compile Include="NullLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

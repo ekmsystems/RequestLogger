@@ -1,14 +1,12 @@
-﻿using RequestLogger.Loggers.LogWriters;
-
-namespace RequestLogger.Loggers
+﻿namespace RequestLogger.Loggers
 {
     public class ConsoleRequestLoggerConfiguration
     {
-        public IConsoleLogWriter ConsoleLogWriter { get; set; }
+        public IConsoleRequestLogWriter LogWriter { get; set; }
 
         public ConsoleRequestLoggerConfiguration()
         {
-            ConsoleLogWriter = new ConsoleLogLogWriter();
+            LogWriter = new ConsoleRequestLogLogWriter();
         }
     }
 }

@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace RequestLogger.Loggers.LogWriters
+namespace RequestLogger.Loggers
 {
-    public interface IConsoleLogWriter
+    public interface IConsoleRequestLogWriter
     {
         void Write(ConsoleColor color, string format, params object[] args);
         void WriteLine(ConsoleColor color, string format, params object[] args);
         void Error(ConsoleColor color, string format, params object[] args);
     }
 
-    public class ConsoleLogLogWriter : IConsoleLogWriter
+    public class ConsoleRequestLogLogWriter : IConsoleRequestLogWriter
     {
         public void Write(ConsoleColor color, string format, params object[] args)
         {
