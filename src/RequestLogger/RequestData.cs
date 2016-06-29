@@ -7,7 +7,7 @@ namespace RequestLogger
     {
         public string HttpMethod;
         public Uri Url;
-        public IDictionary<string, string[]> Headers;
+        public IDictionary<string, string[]> Header;
         public byte[] Content;
     }
 }

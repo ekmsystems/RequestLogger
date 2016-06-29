@@ -55,7 +55,7 @@ namespace RequestLogger.NLog
         {
             info.Properties[_configuration.Keys.HttpMethod] = requestData.HttpMethod;
             info.Properties[_configuration.Keys.Uri] = requestData.Url;
-            info.Properties[_configuration.Keys.RequestHeaders] = FormatHeader(requestData.Headers);
+            info.Properties[_configuration.Keys.RequestHeader] = FormatHeader(requestData.Header);
             info.Properties[_configuration.Keys.RequestBody] = FormatContent(requestData.Content);
         }
 
@@ -63,7 +63,7 @@ namespace RequestLogger.NLog
         {
             info.Properties[_configuration.Keys.StatusCode] = responseData.StatusCode;
             info.Properties[_configuration.Keys.ReasonPhrase] = responseData.ReasonPhrase;
-            info.Properties[_configuration.Keys.ResponseHeaders] = FormatHeader(responseData.Headers);
+            info.Properties[_configuration.Keys.ResponseHeader] = FormatHeader(responseData.Header);
             info.Properties[_configuration.Keys.ResponseBody] = FormatContent(responseData.Content);
         }
 

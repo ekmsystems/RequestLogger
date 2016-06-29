@@ -62,7 +62,7 @@ namespace RequestLogger.Web
             {
                 HttpMethod = request.HttpMethod,
                 Url = request.Url,
-                Headers = ParseHeaders(request.Headers),
+                Header = ParseHeaders(request.Headers),
                 Content = GetRequestContent(request)
             };
         }
@@ -73,7 +73,7 @@ namespace RequestLogger.Web
             {
                 StatusCode = response.StatusCode,
                 ReasonPhrase = response.StatusDescription,
-                Headers = ParseHeaders(response.Headers),
+                Header = ParseHeaders(response.Headers),
                 Content = GetResponseContent(response)
             };
         }

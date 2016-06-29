@@ -2,11 +2,11 @@
 
 namespace RequestLogger.Loggers
 {
-    public class ConsoleRequestLoggerConfiguration
+    public class ConsoleLoggerConfiguration
     {
         public ISystemConsole SystemConsole { get; set; }
 
-        public ConsoleRequestLoggerConfiguration()
+        public ConsoleLoggerConfiguration()
         {
             SystemConsole = new ConsoleWrapper();
         }

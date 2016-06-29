@@ -6,7 +6,7 @@ namespace RequestLogger
     {
         public int StatusCode;
         public string ReasonPhrase;
-        public IDictionary<string, string[]> Headers;
+        public IDictionary<string, string[]> Header;
         public byte[] Content;
     }
 }
