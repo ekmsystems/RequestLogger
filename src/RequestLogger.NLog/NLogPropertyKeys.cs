@@ -13,7 +13,7 @@
 
         internal NLogPropertyKeys()
         {
-            HttpMethod = "Method";
+            HttpMethod = "HttpMethod";
             Uri = "Uri";
             RequestHeader = "RequestHeader";
             RequestBody = "RequestBody";
