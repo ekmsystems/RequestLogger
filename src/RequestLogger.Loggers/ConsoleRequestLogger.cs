@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RequestLogger.Loggers.Wrappers;
 
 namespace RequestLogger.Loggers
 {
     public class ConsoleRequestLogger : IRequestLogger
     {
+        private ISystemConsole SystemConsole
+        {
+            get { return _configuration.SystemConsole; }
+        }
+
         private readonly ConsoleRequestLoggerConfiguration _configuration;
 
         public ConsoleRequestLogger(ConsoleRequestLoggerConfiguration configuration)
@@ -47,32 +53,52 @@ namespace RequestLogger.Loggers
         private void LogException(Exception ex)
         {
             WriteHeader("Error");
-            WriteKeyValuePair("Message", ex.Message);
-            WriteKeyValuePair("StackTrace", ex.StackTrace);
+            WriteException(ex);
         }
 
         private void WriteHeader(string header)
         {
-            _configuration.LogWriter.WriteLine(ConsoleColor.Cyan, header);
+            UseColor(ConsoleColor.Cyan, () => SystemConsole.WriteLine(header));
         }
 
         private void WriteKeyValuePair(string key, string value)
         {
-            _configuration.LogWriter.Write(ConsoleColor.Blue, key);
-            _configuration.LogWriter.Write(ConsoleColor.White, ": ");
-            _configuration.LogWriter.Write(ConsoleColor.Yellow, value);
-            _configuration.LogWriter.WriteLine(ConsoleColor.Black, "");
+            UseColor(ConsoleColor.Blue, () => SystemConsole.Write(key));
+            UseColor(ConsoleColor.White, () => SystemConsole.Write(": "));
+            UseColor(ConsoleColor.Yellow, () => SystemConsole.Write(value));
+            UseColor(ConsoleColor.Black, () => SystemConsole.WriteLine(""));
         }
 
-        private void WriteHeaderValues(IDictionary<string, string[]> headers)
+        private void WriteHeaderValues(IDictionary<string, string[]> header)
         {
-            _configuration.LogWriter.WriteLine(ConsoleColor.Blue, "Headers");
+            UseColor(ConsoleColor.Blue, () => SystemConsole.WriteLine("Headers"));
 
-            foreach (var key in headers.Keys)
+            foreach (var key in header.Keys)
             {
-                _configuration.LogWriter.Write(ConsoleColor.Blue, "\t{0}");
-                _configuration.LogWriter.Write(ConsoleColor.White, ": ");
-                _configuration.LogWriter.WriteLine(ConsoleColor.Blue, string.Join(";", headers[key]));
+                UseColor(ConsoleColor.Blue, () => SystemConsole.Write("\t{0}", key));
+                UseColor(ConsoleColor.White, () => SystemConsole.Write(": "));
+                UseColor(ConsoleColor.Blue, () => SystemConsole.WriteLine(string.Join(";", header[key])));
+            }
+        }
+
+        private void WriteException(Exception ex)
+        {
+            UseColor(ConsoleColor.Red, () => SystemConsole.Error.WriteLine("{0}", ex));
+        }
+
+        private void UseColor(ConsoleColor color, Action action)
+        {
+            var pColor = SystemConsole.ForegroundColor;
+
+            try
+            {
+                SystemConsole.ForegroundColor = color;
+
+                action.Invoke();
+            }
+            finally
+            {
+                SystemConsole.ForegroundColor = pColor;
             }
         }
 

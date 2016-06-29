@@ -1,12 +1,14 @@
-﻿namespace RequestLogger.Loggers
+﻿using RequestLogger.Loggers.Wrappers;
+
+namespace RequestLogger.Loggers
 {
     public class ConsoleRequestLoggerConfiguration
     {
-        public IConsoleRequestLogWriter LogWriter { get; set; }
+        public ISystemConsole SystemConsole { get; set; }
 
         public ConsoleRequestLoggerConfiguration()
         {
-            LogWriter = new ConsoleRequestLogLogWriter();
+            SystemConsole = new ConsoleWrapper();
         }
     }
 }
