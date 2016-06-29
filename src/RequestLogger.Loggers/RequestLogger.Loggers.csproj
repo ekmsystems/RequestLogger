@@ -34,8 +34,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColourConsole.cs" />
     <Compile Include="ConsoleRequestLogger.cs" />
+    <Compile Include="ConsoleRequestLoggerConfiguration.cs" />
+    <Compile Include="LogWriters\ConsoleLogWriter.cs" />
     <Compile Include="NullLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -45,6 +46,7 @@
       <Name>RequestLogger</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

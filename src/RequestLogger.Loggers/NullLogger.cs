@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RequestLogger
+namespace RequestLogger.Loggers
 {
     public sealed class NullLogger : IRequestLogger
     {

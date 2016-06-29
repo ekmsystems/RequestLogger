@@ -1,20 +1,27 @@
 ﻿using System;
 
-namespace RequestLogger
+namespace RequestLogger.Loggers.LogWriters
 {
-    internal static class ColourConsole
+    public interface IConsoleLogWriter
     {
-        public static void Write(ConsoleColor color, string format, params object[] args)
+        void Write(ConsoleColor color, string format, params object[] args);
+        void WriteLine(ConsoleColor color, string format, params object[] args);
+        void Error(ConsoleColor color, string format, params object[] args);
+    }
+
+    public class ConsoleLogLogWriter : IConsoleLogWriter
+    {
+        public void Write(ConsoleColor color, string format, params object[] args)
         {
             UseColor(color, () => Console.Write(format, args));
         }
 
-        public static void WriteLine(ConsoleColor color, string format, params object[] args)
+        public void WriteLine(ConsoleColor color, string format, params object[] args)
         {
             UseColor(color, () => Console.WriteLine(format, args));
         }
 
-        public static void Error(ConsoleColor color, string format, params object[] args)
+        public void Error(ConsoleColor color, string format, params object[] args)
         {
             UseColor(color, () => Console.Error.WriteLine(format, args));
         }

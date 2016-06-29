@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RequestLogger
+namespace RequestLogger.Loggers
 {
     public class ConsoleRequestLogger : IRequestLogger
     {
+        private readonly ConsoleRequestLoggerConfiguration _configuration;
+
+        public ConsoleRequestLogger(ConsoleRequestLoggerConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void Log(RequestData requestData, ResponseData responseData)
         {
             LogRequestData(requestData);
@@ -19,7 +26,7 @@ namespace RequestLogger
             LogException(ex);
         }
 
-        private static void LogRequestData(RequestData requestData)
+        private void LogRequestData(RequestData requestData)
         {
             WriteHeader("Request");
             WriteKeyValuePair("HttpMethod", requestData.HttpMethod);
@@ -28,7 +35,7 @@ namespace RequestLogger
             WriteKeyValuePair("Content", DecodeData(requestData.Content));
         }
 
-        private static void LogResponseData(ResponseData responseData)
+        private void LogResponseData(ResponseData responseData)
         {
             WriteHeader("Response");
             WriteKeyValuePair("StatusCode", Convert.ToString(responseData.StatusCode));
@@ -37,37 +44,37 @@ namespace RequestLogger
             WriteKeyValuePair("Content", DecodeData(responseData.Content));
         }
 
-        private static void LogException(Exception ex)
+        private void LogException(Exception ex)
         {
             WriteHeader("Error");
             WriteKeyValuePair("Message", ex.Message);
             WriteKeyValuePair("StackTrace", ex.StackTrace);
         }
 
-        private static void WriteHeader(string header)
+        private void WriteHeader(string header)
         {
-            ColourConsole.WriteLine(ConsoleColor.Cyan, header);
+            _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Cyan, header);
         }
 
-        private static void WriteKeyValuePair(string key, string value)
+        private void WriteKeyValuePair(string key, string value)
         {
-            ColourConsole.Write(ConsoleColor.Blue, key);
-            ColourConsole.Write(ConsoleColor.White, ":");
-            ColourConsole.Write(ConsoleColor.Yellow, value);
-            ColourConsole.WriteLine(ConsoleColor.Black, "");
+            _configuration.ConsoleLogWriter.Write(ConsoleColor.Blue, key);
+            _configuration.ConsoleLogWriter.Write(ConsoleColor.White, ":");
+            _configuration.ConsoleLogWriter.Write(ConsoleColor.Yellow, value);
+            _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Black, "");
         }
 
-        private static void WriteHeaderValues(IDictionary<string, string[]> headers)
+        private void WriteHeaderValues(IDictionary<string, string[]> headers)
         {
-            ColourConsole.WriteLine(ConsoleColor.Blue, "Headers");
+            _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Blue, "Headers");
 
             foreach (var key in headers.Keys)
             {
-                ColourConsole.WriteLine(ConsoleColor.Blue, "\t{0}", key);
+                _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Blue, "\t{0}", key);
 
                 foreach (var value in headers[key])
                 {
-                    ColourConsole.WriteLine(ConsoleColor.Yellow, "\t\t{0}", value);
+                    _configuration.ConsoleLogWriter.WriteLine(ConsoleColor.Yellow, "\t\t{0}", value);
                 }
             }
         }
