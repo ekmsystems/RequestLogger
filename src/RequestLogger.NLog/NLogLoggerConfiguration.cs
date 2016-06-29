@@ -4,7 +4,7 @@ using RequestLogger.Formatters;
 
 namespace RequestLogger.NLog
 {
-    public class NLogRequestLoggerConfiguration
+    public class NLogLoggerConfiguration
     {
         public NLogPropertyKeys Keys { get; private set; }
         public ILogger Logger { get; set; }
@@ -12,10 +12,10 @@ namespace RequestLogger.NLog
         public Action<LogEventInfo> BeforeLogHook { get; set; }
         public Action<LogEventInfo> BeforeLogErrorHook { get; set; }
 
-        public NLogRequestLoggerConfiguration()
+        public NLogLoggerConfiguration()
         {
             Keys = new NLogPropertyKeys();
-            Logger = LogManager.GetLogger("NLogRequestLogger");
+            Logger = LogManager.GetLogger("RequestLogger");
             HeaderFormatter = new DefaultHeaderFormatter();
         }
     }

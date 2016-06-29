@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using NLog;
 
 namespace RequestLogger.NLog
 {
-    public class NLogRequestLogger : IRequestLogger
+    public class NLogLogger : IRequestLogger
     {
-        private readonly NLogRequestLoggerConfiguration _configuration;
+        private readonly NLogLoggerConfiguration _configuration;
 
-        public NLogRequestLogger(NLogRequestLoggerConfiguration configuration)
+        public NLogLogger(NLogLoggerConfiguration configuration)
         {
             _configuration = configuration;
         }

@@ -43,8 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NLogPropertyKeys.cs" />
-    <Compile Include="NLogRequestLogger.cs" />
-    <Compile Include="NLogRequestLoggerConfiguration.cs" />
+    <Compile Include="NLogLogger.cs" />
+    <Compile Include="NLogLoggerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
