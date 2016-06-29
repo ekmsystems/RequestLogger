@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using RequestLogger.Formatters;
 using RequestLogger.Loggers.Wrappers;
 
 namespace RequestLogger.Loggers.Tests
@@ -11,15 +12,18 @@ namespace RequestLogger.Loggers.Tests
     public class ConsoleLoggerTests
     {
         private Mock<ISystemConsole> _systemConsole;
+        private Mock<IHeaderFormatter> _headerFormatter;
         private ConsoleLogger _logger;
 
         [SetUp]
         public void SetUp()
         {
             _systemConsole = new Mock<ISystemConsole>();
+            _headerFormatter = new Mock<IHeaderFormatter>();
             _logger = new ConsoleLogger(new ConsoleLoggerConfiguration
             {
-                SystemConsole = _systemConsole.Object
+                SystemConsole = _systemConsole.Object,
+                HeaderFormatter = _headerFormatter.Object
             });
         }
 
@@ -27,6 +31,7 @@ namespace RequestLogger.Loggers.Tests
         public void TearDown()
         {
             _logger = null;
+            _headerFormatter = null;
             _systemConsole = null;
         }
 
@@ -61,8 +66,8 @@ namespace RequestLogger.Loggers.Tests
                 "RequestData.Url: {0}", 
                 It.Is<object[]>(o => o.Contains(requestData.Url))), Times.Once);
             _systemConsole.Verify(x => x.WriteLine(
-                "RequestData.Header: {0}", 
-                It.Is<object[]>(o => o.Contains("{}"))), Times.Once);
+                "RequestData.Header: {0}",
+                It.Is<object[]>(o => o.Contains(null))), Times.Once);
             _systemConsole.Verify(x => x.WriteLine(
                 "RequestData.Content: {0}", 
                 It.Is<object[]>(o => o.Contains(""))), Times.Once);
@@ -89,7 +94,7 @@ namespace RequestLogger.Loggers.Tests
                 It.Is<object[]>(o => o.Contains(responseData.ReasonPhrase))), Times.Once);
             _systemConsole.Verify(x => x.WriteLine(
                 "ResponseData.Header: {0}", 
-                It.Is<object[]>(o => o.Contains("{}"))), Times.Once);
+                It.Is<object[]>(o => o.Contains(null))), Times.Once);
             _systemConsole.Verify(x => x.WriteLine(
                 "ResponseData.Content: {0}", 
                 It.Is<object[]>(o => o.Contains(""))), Times.Once);

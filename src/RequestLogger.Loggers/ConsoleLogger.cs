@@ -54,13 +54,9 @@ namespace RequestLogger.Loggers
             SystemConsole.WriteError(ex);
         }
 
-        private static string ParseHeader(IDictionary<string, string[]> header)
+        private string ParseHeader(IDictionary<string, string[]> header)
         {
-            var headerValues = string.Join(", ", (header ?? new Dictionary<string, string[]>()).Keys
-                .Select(x => string.Format("{0}: [{1}]", x, string.Join(", ", header[x])))
-                .ToArray());
-
-            return string.Format("{{{0}}}", headerValues);
+            return _configuration.HeaderFormatter.Format(header);
         }
 
         private static string ParseContent(byte[] content)
