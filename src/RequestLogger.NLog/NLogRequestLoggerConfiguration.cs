@@ -1,5 +1,6 @@
 ﻿using System;
 using NLog;
+using RequestLogger.Formatters;
 
 namespace RequestLogger.NLog
 {
@@ -7,6 +8,7 @@ namespace RequestLogger.NLog
     {
         public NLogPropertyKeys Keys { get; private set; }
         public ILogger Logger { get; set; }
+        public IHeaderFormatter HeaderFormatter { get; set; }
         public Action<LogEventInfo> BeforeLogHook { get; set; }
         public Action<LogEventInfo> BeforeLogErrorHook { get; set; }
 
@@ -14,6 +16,7 @@ namespace RequestLogger.NLog
         {
             Keys = new NLogPropertyKeys();
             Logger = LogManager.GetLogger("NLogRequestLogger");
+            HeaderFormatter = new DefaultHeaderFormatter();
         }
     }
 }

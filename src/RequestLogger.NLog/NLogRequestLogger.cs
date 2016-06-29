@@ -55,26 +55,24 @@ namespace RequestLogger.NLog
         {
             info.Properties[_configuration.Keys.HttpMethod] = requestData.HttpMethod;
             info.Properties[_configuration.Keys.Uri] = requestData.Url;
-            info.Properties[_configuration.Keys.RequestHeader] = FormatHeader(requestData.Header);
-            info.Properties[_configuration.Keys.RequestBody] = FormatContent(requestData.Content);
+            info.Properties[_configuration.Keys.RequestHeader] = ParseHeader(requestData.Header);
+            info.Properties[_configuration.Keys.RequestBody] = ParseContent(requestData.Content);
         }
 
         private void PopulateResponseProperties(ResponseData responseData, LogEventInfo info)
         {
             info.Properties[_configuration.Keys.StatusCode] = responseData.StatusCode;
             info.Properties[_configuration.Keys.ReasonPhrase] = responseData.ReasonPhrase;
-            info.Properties[_configuration.Keys.ResponseHeader] = FormatHeader(responseData.Header);
-            info.Properties[_configuration.Keys.ResponseBody] = FormatContent(responseData.Content);
+            info.Properties[_configuration.Keys.ResponseHeader] = ParseHeader(responseData.Header);
+            info.Properties[_configuration.Keys.ResponseBody] = ParseContent(responseData.Content);
         }
 
-        private static string FormatHeader(IDictionary<string, string[]> header)
+        private string ParseHeader(IDictionary<string, string[]> header)
         {
-            return string.Join(",", header
-                .Select(x => string.Format("{{{0}: [{1}]}}", x.Key, string.Join("][", x.Value)))
-                .ToArray());
+            return _configuration.HeaderFormatter.Format(header);
         }
 
-        private static string FormatContent(byte[] content)
+        private static string ParseContent(byte[] content)
         {
             return Encoding.UTF8.GetString(content ?? new byte[] {});
         }
