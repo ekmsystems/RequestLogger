@@ -23,7 +23,7 @@ namespace RequestLogger
         {
             WriteHeader("Request");
             WriteKeyValuePair("HttpMethod", requestData.HttpMethod);
-            WriteKeyValuePair("Uri", requestData.Uri);
+            WriteKeyValuePair("Url", requestData.Url.ToString());
             WriteHeaderValues(requestData.Headers);
             WriteKeyValuePair("Content", DecodeData(requestData.Content));
         }
