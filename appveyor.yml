@@ -27,9 +27,9 @@ build:
   project: src/RequestLogger.sln
   verbosity: minimal
 after_build:
-  - ps: nuget pack src/RequestLogger/RequestLogger.csproj -version "$env:nugetVersion"
-  - ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -version "$env:nugetVersion"
-  - ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -version "$env:nugetVersion"
+  - ps: nuget pack src/RequestLogger/RequestLogger.csproj -version "$env:nugetVersion" -Prop Configuration="$env:CONFIGURATION"
+  - ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -version "$env:nugetVersion" -Prop Configuration="$env:CONFIGURATION"
+  - ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -version "$env:nugetVersion" -Prop Configuration="$env:CONFIGURATION"
 artifacts:
 - path: '*.nupkg'
   name: NuGet
