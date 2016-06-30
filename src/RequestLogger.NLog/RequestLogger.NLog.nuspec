@@ -12,8 +12,5 @@
     <releaseNotes></releaseNotes>
     <copyright></copyright>
     <tags>request logger nlog</tags>
-    <dependencies>
-      <dependency id="RequestLogger" version="$version$" />
-    </dependencies>
   </metadata>
 </package>
