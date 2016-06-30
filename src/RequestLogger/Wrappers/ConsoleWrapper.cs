@@ -1,7 +1,6 @@
 ﻿using System;
-using System.IO;
 
-namespace RequestLogger.Loggers.Wrappers
+namespace RequestLogger.Wrappers
 {
     public interface ISystemConsole
     {

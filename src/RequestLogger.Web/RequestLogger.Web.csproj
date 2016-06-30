@@ -43,10 +43,6 @@
     <Compile Include="StreamExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RequestLogger.Loggers\RequestLogger.Loggers.csproj">
-      <Project>{713211d8-7a0e-4a51-a5bc-ba37b92765af}</Project>
-      <Name>RequestLogger.Loggers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RequestLogger\RequestLogger.csproj">
       <Project>{95400851-339f-4893-99bf-3264bddf2502}</Project>
       <Name>RequestLogger</Name>

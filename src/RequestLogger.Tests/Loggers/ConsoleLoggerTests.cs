@@ -4,9 +4,10 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using RequestLogger.Formatters;
-using RequestLogger.Loggers.Wrappers;
+using RequestLogger.Loggers;
+using RequestLogger.Wrappers;
 
-namespace RequestLogger.Loggers.Tests
+namespace RequestLogger.Tests.Loggers
 {
     [TestFixture]
     public class ConsoleLoggerTests

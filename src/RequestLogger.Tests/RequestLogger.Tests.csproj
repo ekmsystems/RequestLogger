@@ -6,8 +6,8 @@
     <ProjectGuid>{A5FE485E-5E1C-4CA7-9B01-E727F3BFEEB7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RequestLogger.Loggers.Tests</RootNamespace>
-    <AssemblyName>RequestLogger.Loggers.Tests</AssemblyName>
+    <RootNamespace>RequestLogger.Tests</RootNamespace>
+    <AssemblyName>RequestLogger.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -64,15 +64,11 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="ConsoleLoggerTests.cs" />
-    <Compile Include="NullLoggerTests.cs" />
+    <Compile Include="Loggers\ConsoleLoggerTests.cs" />
+    <Compile Include="Loggers\NullLoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RequestLogger.Loggers\RequestLogger.Loggers.csproj">
-      <Project>{713211d8-7a0e-4a51-a5bc-ba37b92765af}</Project>
-      <Name>RequestLogger.Loggers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RequestLogger\RequestLogger.csproj">
       <Project>{95400851-339F-4893-99BF-3264BDDF2502}</Project>
       <Name>RequestLogger</Name>

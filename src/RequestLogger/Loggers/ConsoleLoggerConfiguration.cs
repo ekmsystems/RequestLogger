@@ -1,5 +1,5 @@
 ﻿using RequestLogger.Formatters;
-using RequestLogger.Loggers.Wrappers;
+using RequestLogger.Wrappers;
 
 namespace RequestLogger.Loggers
 {

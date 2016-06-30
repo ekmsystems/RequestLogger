@@ -7,13 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger", "RequestLog
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.Web", "RequestLogger.Web\RequestLogger.Web.csproj", "{CD6C925F-3B44-4B51-B492-5D0F0C7E3AC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.Loggers", "RequestLogger.Loggers\RequestLogger.Loggers.csproj", "{713211D8-7A0E-4A51-A5BC-BA37B92765AF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.Web.Tests", "RequestLogger.Web.Tests\RequestLogger.Web.Tests.csproj", "{264FDA10-0E47-4A20-8796-0FE5B33296E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.NLog", "RequestLogger.NLog\RequestLogger.NLog.csproj", "{AD94C82B-1E7C-40F9-881B-7A4486C724C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.Loggers.Tests", "RequestLogger.Loggers.Tests\RequestLogger.Loggers.Tests.csproj", "{A5FE485E-5E1C-4CA7-9B01-E727F3BFEEB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.Tests", "RequestLogger.Tests\RequestLogger.Tests.csproj", "{A5FE485E-5E1C-4CA7-9B01-E727F3BFEEB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{CD6C925F-3B44-4B51-B492-5D0F0C7E3AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD6C925F-3B44-4B51-B492-5D0F0C7E3AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD6C925F-3B44-4B51-B492-5D0F0C7E3AC2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{713211D8-7A0E-4A51-A5BC-BA37B92765AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{713211D8-7A0E-4A51-A5BC-BA37B92765AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{713211D8-7A0E-4A51-A5BC-BA37B92765AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{713211D8-7A0E-4A51-A5BC-BA37B92765AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{264FDA10-0E47-4A20-8796-0FE5B33296E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{264FDA10-0E47-4A20-8796-0FE5B33296E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{264FDA10-0E47-4A20-8796-0FE5B33296E2}.Release|Any CPU.ActiveCfg = Release|Any CPU

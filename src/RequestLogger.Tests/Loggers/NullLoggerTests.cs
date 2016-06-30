@@ -1,7 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
+using RequestLogger.Loggers;
 
-namespace RequestLogger.Loggers.Tests
+namespace RequestLogger.Tests.Loggers
 {
     [TestFixture]
     public class NullLoggerTests
