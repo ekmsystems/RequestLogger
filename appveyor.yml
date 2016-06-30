@@ -40,4 +40,5 @@ deploy:
     secure: qtaJZ+3ZB2B9iniOMBkLcNDFEfYBKwmqPD8svppaLlec2lhEZVKQb9hu38MWFMD4
   skip_symbols: false
   on:
-    branch: appveyor_ci
+    branch: master
+    appveyor_repo_tag: true
