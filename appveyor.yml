@@ -4,10 +4,9 @@ pull_requests:
 image: Visual Studio 2013
 configuration: Release
 init:
-- ps: >-
-    $env:buildVersion = "$env:packageVersion.$env:appveyor_build_number"
-    $env:nugetVersion = "$env:packageVersion-beta-$env:appveyor_build_number"
-    Update-AppveyorBuild -Version $env:buildVersion
+  - ps: $env:buildVersion = "$env:packageVersion.$env:appveyor_build_number"
+  - ps: $env:nugetVersion = "$env:packageVersion-beta-$env:appveyor_build_number"
+  - ps: Update-AppveyorBuild -Version $env:buildVersion
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -20,16 +19,17 @@ nuget:
   account_feed: true
   project_feed: true
   disable_publish_on_pr: true
+cache:
+  - packages -> **\packages.config
 before_build:
-- cmd: nuget restore
+  - cmd: nuget restore src/RequestLogger.sln
 build:
   project: src/RequestLogger.sln
   verbosity: minimal
 after_build:
-- ps: >-
-    nuget pack src/RequestLogger/RequestLogger.nuspec -version "$env:nugetVersion"
-    nuget pack src/RequestLogger.NLog/RequestLogger.NLog.nuspec -version "$env:nugetVersion"
-    nuget pack src/RequestLogger.Web/RequestLogger.Web.nuspec -version "$env:nugetVersion"
+  - ps: nuget pack src/RequestLogger/RequestLogger.csproj -version "$env:nugetVersion"
+  - ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -version "$env:nugetVersion"
+  - ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -version "$env:nugetVersion"
 artifacts:
 - path: '*.nupkg'
   name: NuGet
