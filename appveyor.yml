@@ -1,0 +1,43 @@
+version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2013
+configuration: Release
+init:
+- ps: >-
+    $env:buildVersion = "$env:packageVersion.$env:appveyor_build_number"
+    $env:nugetVersion = "$env:packageVersion-beta-$env:appveyor_build_number"
+    Update-AppveyorBuild -Version $env:buildVersion
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+environment:
+  packageVersion: 0.1.0
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true
+before_build:
+- cmd: nuget restore
+build:
+  project: src/RequestLogger.sln
+  verbosity: minimal
+after_build:
+- ps: >-
+    nuget pack src/RequestLogger/RequestLogger.nuspec -version "$env:nugetVersion"
+    nuget pack src/RequestLogger.NLog/RequestLogger.NLog.nuspec -version "$env:nugetVersion"
+    nuget pack src/RequestLogger.Web/RequestLogger.Web.nuspec -version "$env:nugetVersion"
+artifacts:
+- path: '*.nupkg'
+  name: NuGet
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/package-hub/api/v2/package
+  api_key:
+    secure: qtaJZ+3ZB2B9iniOMBkLcNDFEfYBKwmqPD8svppaLlec2lhEZVKQb9hu38MWFMD4
+  skip_symbols: false
+  on:
+    branch: appveyor_ci
