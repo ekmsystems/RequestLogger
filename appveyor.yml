@@ -1,23 +1,12 @@
 version: 1.0.{build}
-environment:
-  packageVersion: '1.0.0'
 image: Visual Studio 2013
 configuration: Release
 pull_requests:
   do_not_increment_build_number: true
 init:
-- ps: >-
-    if ($env:appveyor_repo_tag -eq "true")
-    {
-      $env:buildVersion = "$env:appveyor_repo_tag_name"
-      $env:nugetVersion = "$env:appveyor_repo_tag_name"
-    }
-    else
-    {
-      $env:buildVersion = "$env:packageVersion.$env:appveyor_build_number"
-      $env:nugetVersion = "$env:packageVersion-beta$env:appveyor_build_number"
-    }
-    Update-AppveyorBuild -Version $env:buildVersion
+- ps: $env:buildVersion = "$env:appveyor_build_version"
+- ps: $env:nugetVersion = "$env:appveyor_build_version"
+- ps: Update-AppveyorBuild -Version $env:buildVersion
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -35,10 +24,10 @@ before_build:
 build:
   project: src/RequestLogger.sln
   verbosity: minimal
-after_build:
-- ps: nuget pack src/RequestLogger/RequestLogger.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
-- ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
-- ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
+before_deploy:
+- ps: nuget pack src/RequestLogger/RequestLogger.csproj -IncludeReferencedProjects -Build -Prop Configuration="$(CONFIGURATION)"
+- ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -IncludeReferencedProjects -Build -Prop Configuration="$(CONFIGURATION)"
+- ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -IncludeReferencedProjects -Build -Prop Configuration="$(CONFIGURATION)"
 artifacts:
 - path: '*.nupkg'
   name: NuGet
@@ -50,7 +39,6 @@ deploy:
   skip_symbols: false
   on:
     branch: master
-    appveyor_repo_tag: true
 - provider: GitHub
   release: $(nugetVersion)
   description: Tagged release for $(nugetVersion)
@@ -61,4 +49,3 @@ deploy:
   prerelease: false
   on:
     branch: master
-    appveyor_repo_tag: true
