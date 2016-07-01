@@ -25,7 +25,7 @@ before_build:
 build:
   project: src/RequestLogger.sln
   verbosity: minimal
-before_deploy:
+after_build:
 - ps: nuget pack src/RequestLogger/RequestLogger.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
 - ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
 - ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
