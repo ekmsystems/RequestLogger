@@ -25,9 +25,9 @@ build:
   project: src/RequestLogger.sln
   verbosity: minimal
 before_deploy:
-- ps: nuget pack src/RequestLogger/RequestLogger.csproj -IncludeReferencedProjects -Build -Prop Configuration="$(CONFIGURATION)"
-- ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -IncludeReferencedProjects -Build -Prop Configuration="$(CONFIGURATION)"
-- ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -IncludeReferencedProjects -Build -Prop Configuration="$(CONFIGURATION)"
+- ps: nuget pack src/RequestLogger/RequestLogger.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
+- ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
+- ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
 artifacts:
 - path: '*.nupkg'
   name: NuGet
