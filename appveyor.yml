@@ -42,3 +42,13 @@ deploy:
   skip_symbols: false
   on:
     branch: master
+- provider: GitHub
+  tag: $env:nugetVersion
+  release: 'Tagged release for $env:nugetVersion'
+  auth_token:
+    secure: P0zKShYBQOsJiROZvX3woqdfzUAm5HTLMzp/v1B3So55KcqJbJ/NPtNVZ8GR1tJn
+  artifact: /.*\.nupkg/
+  draft: false
+  prerelease: false
+  on:
+    branch: master
