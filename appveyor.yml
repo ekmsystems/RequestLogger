@@ -5,11 +5,19 @@ image: Visual Studio 2013
 configuration: Release
 pull_requests:
   do_not_increment_build_number: true
-skip_tags: true
 init:
-- ps: $env:buildVersion = "$env:packageVersion.$env:appveyor_build_number"
-- ps: $env:nugetVersion = "$env:packageVersion-beta$env:appveyor_build_number"
-- ps: Update-AppveyorBuild -Version $env:buildVersion
+- ps: >-
+    if ($env:appveyor_repo_tag -eq "true")
+    {
+      $env:buildVersion = "$env:appveyor_repo_tag_name"
+      $env:nugetVersion = "$env:appveyor_repo_tag_name"
+    }
+    else
+    {
+      $env:buildVersion = "$env:packageVersion.$env:appveyor_build_number"
+      $env:nugetVersion = "$env:packageVersion-beta$env:appveyor_build_number"
+    }
+    Update-AppveyorBuild -Version $env:buildVersion
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -42,9 +50,10 @@ deploy:
   skip_symbols: false
   on:
     branch: master
+    appveyor_repo_tag: true
 - provider: GitHub
-  tag: $env:nugetVersion
-  release: 'Tagged release for $env:nugetVersion'
+  release: $(nugetVersion)
+  description: Tagged release for $(nugetVersion)
   auth_token:
     secure: P0zKShYBQOsJiROZvX3woqdfzUAm5HTLMzp/v1B3So55KcqJbJ/NPtNVZ8GR1tJn
   artifact: /.*\.nupkg/
@@ -52,3 +61,4 @@ deploy:
   prerelease: false
   on:
     branch: master
+    appveyor_repo_tag: true
