@@ -1,52 +1,46 @@
-version: 1.0.{build}
+version: '{build}'
 image: Visual Studio 2013
 configuration: Release
 pull_requests:
   do_not_increment_build_number: true
-skip_tags: true
-init:
-- ps: $env:buildVersion = "$env:appveyor_build_version"
-- ps: $env:nugetVersion = "$env:appveyor_build_version"
-- ps: Update-AppveyorBuild -Version $env:buildVersion
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '$(buildVersion)'
-  assembly_file_version: '$(buildVersion)'
-  assembly_informational_version: '$(nugetVersion)'
+
 nuget:
   account_feed: true
   project_feed: true
   disable_publish_on_pr: true
+
 cache:
-- packages -> **\packages.config
+  - packages -> **\packages.config
+
+install:
+  - ps: choco install gitversion.portable -pre -y
+
+assembly_info:
+  patch: true
+
 before_build:
-- cmd: nuget restore src/RequestLogger.sln
+  - nuget restore src/RequestLogger.sln
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo /b (get-item env:APPVEYOR_REPO_BRANCH).Value
+
 build:
   project: src/RequestLogger.sln
-  verbosity: minimal
+
 after_build:
-- ps: nuget pack src/RequestLogger/RequestLogger.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
-- ps: nuget pack src/RequestLogger.NLog/RequestLogger.NLog.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
-- ps: nuget pack src/RequestLogger.Web/RequestLogger.Web.csproj -IncludeReferencedProjects -Build -Prop Configuration="$env:CONFIGURATION"
+  - cmd: nuget pack src\RequestLogger\RequestLogger.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+  - cmd: nuget pack src\RequestLogger\RequestLogger.NLog.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+  - cmd: nuget pack src\RequestLogger\RequestLogger.Web.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+
 artifacts:
-- path: '*.nupkg'
-  name: NuGet
+  - path: '*.nupkg'
+    name: NuGet
+
 deploy:
-- provider: NuGet
-  server: https://www.myget.org/F/package-hub/api/v2/package
-  api_key:
-    secure: qtaJZ+3ZB2B9iniOMBkLcNDFEfYBKwmqPD8svppaLlec2lhEZVKQb9hu38MWFMD4
-  skip_symbols: false
-  on:
-    branch: master
-- provider: GitHub
-  release: $(nugetVersion)
-  description: Tagged release for $(nugetVersion)
-  auth_token:
-    secure: P0zKShYBQOsJiROZvX3woqdfzUAm5HTLMzp/v1B3So55KcqJbJ/NPtNVZ8GR1tJn
-  artifact: /.*\.nupkg/
-  draft: false
-  prerelease: false
-  on:
-    branch: master
+  - provider: Environment
+    name: PreRelease NuGet Feed
+    on:
+      branch: master
+  - provider: Environment
+    name: Public NuGet Feed
+    on:
+      branch: master
+      appveyor_repo_tag: true
