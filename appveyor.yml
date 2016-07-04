@@ -42,5 +42,4 @@ deploy:
   - provider: Environment
     name: Public NuGet Feed
     on:
-      branch: master
       appveyor_repo_tag: true
