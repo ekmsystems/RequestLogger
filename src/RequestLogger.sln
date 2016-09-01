@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.NLog", "Reque
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.Tests", "RequestLogger.Tests\RequestLogger.Tests.csproj", "{A5FE485E-5E1C-4CA7-9B01-E727F3BFEEB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.Owin", "RequestLogger.Owin\RequestLogger.Owin.csproj", "{CF9797F4-D629-4809-9CE3-9995EFDAF9D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestLogger.Owin.Tests", "RequestLogger.Owin.Tests\RequestLogger.Owin.Tests.csproj", "{EE95EEE3-7562-4106-B84B-62C9AF9B348A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{A5FE485E-5E1C-4CA7-9B01-E727F3BFEEB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5FE485E-5E1C-4CA7-9B01-E727F3BFEEB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5FE485E-5E1C-4CA7-9B01-E727F3BFEEB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF9797F4-D629-4809-9CE3-9995EFDAF9D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF9797F4-D629-4809-9CE3-9995EFDAF9D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF9797F4-D629-4809-9CE3-9995EFDAF9D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF9797F4-D629-4809-9CE3-9995EFDAF9D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE95EEE3-7562-4106-B84B-62C9AF9B348A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE95EEE3-7562-4106-B84B-62C9AF9B348A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE95EEE3-7562-4106-B84B-62C9AF9B348A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE95EEE3-7562-4106-B84B-62C9AF9B348A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
