@@ -27,9 +27,6 @@ build:
 
 after_build:
   - cmd: nuget pack src\RequestLogger\RequestLogger.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
-  - cmd: nuget pack src\RequestLogger.NLog\RequestLogger.NLog.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
-  - cmd: nuget pack src\RequestLogger.Owin\RequestLogger.Owin.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
-  - cmd: nuget pack src\RequestLogger.Web\RequestLogger.Web.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
 
 artifacts:
   - path: '*.nupkg'
