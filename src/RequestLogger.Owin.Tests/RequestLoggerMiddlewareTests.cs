@@ -11,8 +11,6 @@ namespace RequestLogger.Owin.Tests
     [TestFixture]
     public class RequestLoggerMiddlewareTests
     {
-        private Mock<IRequestLogger> _logger;
-
         [SetUp]
         public void SetUp()
         {
@@ -24,6 +22,8 @@ namespace RequestLogger.Owin.Tests
         {
             _logger = null;
         }
+
+        private Mock<IRequestLogger> _logger;
 
         [Test]
         public async Task Should_Log()
@@ -37,27 +37,6 @@ namespace RequestLogger.Owin.Tests
                 await server.HttpClient.GetAsync("/");
 
                 _logger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Once);
-            }
-        }
-
-        [Test]
-        public async Task When_ErrorIsThrown_Should_LogError()
-        {
-            var ex = new SuccessException("Test Error");
-
-            _logger
-                .Setup(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()))
-                .Throws(ex);
-
-            using (var server = TestServer.Create(app =>
-            {
-                app.Use(typeof(RequestLoggerMiddleware), _logger.Object);
-                app.Run(async context => await context.Response.WriteAsync("Test Server"));
-            }))
-            {
-                await server.HttpClient.GetAsync("/");
-
-                _logger.Verify(x => x.LogError(It.IsAny<RequestData>(), It.IsAny<ResponseData>(), ex), Times.Once);
             }
         }
 
@@ -92,16 +71,34 @@ namespace RequestLogger.Owin.Tests
             using (var server = TestServer.Create(app =>
             {
                 app.Use(typeof(RequestLoggerMiddleware), _logger.Object);
-                app.Run(async context =>
-                {
-                    await context.Response.WriteAsync(expectedContent);
-                });
+                app.Run(async context => { await context.Response.WriteAsync(expectedContent); });
             }))
             {
                 var response = await server.HttpClient.GetAsync("/");
                 var result = await response.Content.ReadAsStringAsync();
 
                 Assert.AreEqual(expectedContent, result);
+            }
+        }
+
+        [Test]
+        public async Task When_ErrorIsThrown_Should_LogError()
+        {
+            var ex = new SuccessException("Test Error");
+
+            _logger
+                .Setup(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()))
+                .Throws(ex);
+
+            using (var server = TestServer.Create(app =>
+            {
+                app.Use(typeof(RequestLoggerMiddleware), _logger.Object);
+                app.Run(async context => await context.Response.WriteAsync("Test Server"));
+            }))
+            {
+                await server.HttpClient.GetAsync("/");
+
+                _logger.Verify(x => x.LogError(It.IsAny<RequestData>(), It.IsAny<ResponseData>(), ex), Times.Once);
             }
         }
     }

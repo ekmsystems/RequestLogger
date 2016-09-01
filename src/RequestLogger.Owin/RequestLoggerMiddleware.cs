@@ -55,7 +55,7 @@ namespace RequestLogger.Owin
         private static async Task<Stream> CreateSeekableStream(Stream stream)
         {
             var ms = new MemoryStream();
-            
+
             if (stream != null)
             {
                 await stream.CopyToAsync(ms);
