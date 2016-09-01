@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="RequestLoggerMiddleware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestLoggerMiddlewareExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RequestLogger\RequestLogger.csproj">
