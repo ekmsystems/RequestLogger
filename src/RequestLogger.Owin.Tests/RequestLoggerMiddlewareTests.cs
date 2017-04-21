@@ -14,29 +14,29 @@ namespace RequestLogger.Owin.Tests
         [SetUp]
         public void SetUp()
         {
-            _logger = new Mock<IRequestLogger>();
+            _requestLogger = new Mock<IRequestLogger>();
         }
 
         [TearDown]
         public void TearDown()
         {
-            _logger = null;
+            _requestLogger = null;
         }
 
-        private Mock<IRequestLogger> _logger;
+        private Mock<IRequestLogger> _requestLogger;
 
         [Test]
         public async Task Should_Log()
         {
             using (var server = TestServer.Create(app =>
             {
-                app.Use(typeof(RequestLoggerMiddleware), _logger.Object);
+                app.Use(typeof(RequestLoggerMiddleware), _requestLogger.Object);
                 app.Run(async context => await context.Response.WriteAsync("Test Server"));
             }))
             {
                 await server.HttpClient.GetAsync("/");
 
-                _logger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Once);
+                _requestLogger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Once);
             }
         }
 
@@ -48,7 +48,7 @@ namespace RequestLogger.Owin.Tests
 
             using (var server = TestServer.Create(app =>
             {
-                app.Use(typeof(RequestLoggerMiddleware), _logger.Object);
+                app.Use(typeof(RequestLoggerMiddleware), _requestLogger.Object);
                 app.Run(async context =>
                 {
                     result = new StreamReader(context.Request.Body).ReadToEnd();
@@ -70,7 +70,7 @@ namespace RequestLogger.Owin.Tests
 
             using (var server = TestServer.Create(app =>
             {
-                app.Use(typeof(RequestLoggerMiddleware), _logger.Object);
+                app.Use(typeof(RequestLoggerMiddleware), _requestLogger.Object);
                 app.Run(async context => { await context.Response.WriteAsync(expectedContent); });
             }))
             {
@@ -86,19 +86,19 @@ namespace RequestLogger.Owin.Tests
         {
             var ex = new SuccessException("Test Error");
 
-            _logger
+            _requestLogger
                 .Setup(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()))
                 .Throws(ex);
 
             using (var server = TestServer.Create(app =>
             {
-                app.Use(typeof(RequestLoggerMiddleware), _logger.Object);
+                app.Use(typeof(RequestLoggerMiddleware), _requestLogger.Object);
                 app.Run(async context => await context.Response.WriteAsync("Test Server"));
             }))
             {
                 await server.HttpClient.GetAsync("/");
 
-                _logger.Verify(x => x.LogError(It.IsAny<RequestData>(), It.IsAny<ResponseData>(), ex), Times.Once);
+                _requestLogger.Verify(x => x.LogError(It.IsAny<RequestData>(), It.IsAny<ResponseData>(), ex), Times.Once);
             }
         }
     }

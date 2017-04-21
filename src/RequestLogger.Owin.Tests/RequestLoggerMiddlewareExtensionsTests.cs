@@ -12,17 +12,17 @@ namespace RequestLogger.Owin.Tests
         [Test]
         public async Task UseRequestLoggerMiddleware_Should_AttachMiddleware()
         {
-            var logger = new Mock<IRequestLogger>();
+            var requestLogger = new Mock<IRequestLogger>();
 
             using (var server = TestServer.Create(app =>
             {
-                app.UseRequestLoggerMiddleware(logger.Object);
+                app.UseRequestLoggerMiddleware(requestLogger.Object);
                 app.Run(async context => await context.Response.WriteAsync("Test Server"));
             }))
             {
                 await server.HttpClient.GetAsync("/");
 
-                logger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Once);
+                requestLogger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Once);
             }
         }
     }
