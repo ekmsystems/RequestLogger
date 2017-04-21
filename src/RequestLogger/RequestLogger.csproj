@@ -35,13 +35,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRequestLogger.cs" />
+    <Compile Include="ITraceListener.cs" />
     <Compile Include="Loggers\ConsoleRequestLogger.cs" />
     <Compile Include="Loggers\NullRequestLogger.cs" />
+    <Compile Include="Loggers\TraceRequestLogger.cs" />
     <Compile Include="RequestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseData.cs" />
     <Compile Include="Wrappers\ConsoleWrapper.cs" />
     <Compile Include="ISystemConsole.cs" />
+    <Compile Include="Wrappers\TraceWrapper.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
