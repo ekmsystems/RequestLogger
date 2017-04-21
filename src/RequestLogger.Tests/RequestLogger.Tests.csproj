@@ -64,8 +64,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Loggers\ConsoleLoggerTests.cs" />
-    <Compile Include="Loggers\NullLoggerTests.cs" />
+    <Compile Include="Loggers\ConsoleRequestLoggerTests.cs" />
+    <Compile Include="Loggers\NullRequestLoggerTests.cs" />
+    <Compile Include="Loggers\TraceRequestLoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

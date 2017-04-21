@@ -2,7 +2,7 @@
 
 namespace RequestLogger.Loggers
 {
-    public sealed class NullLogger : IRequestLogger
+    public sealed class NullRequestLogger : IRequestLogger
     {
         public void Log(RequestData requestData, ResponseData responseData)
         {

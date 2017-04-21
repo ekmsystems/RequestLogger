@@ -9,12 +9,12 @@ namespace RequestLogger.Owin
 {
     public class RequestLoggerMiddleware : OwinMiddleware
     {
-        private readonly IRequestLogger _logger;
+        private readonly IRequestLogger _requestLogger;
 
-        public RequestLoggerMiddleware(OwinMiddleware next, IRequestLogger logger)
+        public RequestLoggerMiddleware(OwinMiddleware next, IRequestLogger requestLogger)
             : base(next)
         {
-            _logger = logger;
+            _requestLogger = requestLogger;
         }
 
         public override async Task Invoke(IOwinContext context)
@@ -38,11 +38,11 @@ namespace RequestLogger.Owin
 
                     responseData = GetResponseData(context.Response);
 
-                    _logger.Log(requestData, responseData);
+                    _requestLogger.Log(requestData, responseData);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(requestData, responseData, ex);
+                    _requestLogger.LogError(requestData, responseData, ex);
                 }
 
                 requestStream.Seek(0, SeekOrigin.Begin);

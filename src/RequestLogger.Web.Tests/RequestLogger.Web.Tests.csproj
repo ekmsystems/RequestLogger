@@ -50,10 +50,6 @@
       <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RequestLogger, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RequestLogger.1.2.0\lib\net35\RequestLogger.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -82,6 +78,10 @@
     <ProjectReference Include="..\RequestLogger.Web\RequestLogger.Web.csproj">
       <Project>{cd6c925f-3b44-4b51-b492-5d0f0c7e3ac2}</Project>
       <Name>RequestLogger.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RequestLogger\RequestLogger.csproj">
+      <Project>{95400851-339f-4893-99bf-3264bddf2502}</Project>
+      <Name>RequestLogger</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

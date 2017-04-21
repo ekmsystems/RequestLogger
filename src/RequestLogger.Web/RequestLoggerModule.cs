@@ -3,22 +3,16 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Web;
-using RequestLogger.Loggers;
 
 namespace RequestLogger.Web
 {
     public class RequestLoggerModule : BaseHttpModule
     {
-        private readonly IRequestLogger _logger;
-
-        public RequestLoggerModule()
-            : this(new NullLogger())
+        private readonly IRequestLogger _requestLogger;
+        
+        public RequestLoggerModule(IRequestLogger requestLogger)
         {
-        }
-
-        public RequestLoggerModule(IRequestLogger logger)
-        {
-            _logger = logger;
+            _requestLogger = requestLogger;
         }
 
         public override void OnBeginRequest(HttpContextBase context)
@@ -37,7 +31,7 @@ namespace RequestLogger.Web
             var requestData = ExtractRequestData(context.Request);
             var responseData = ExtractResponseData(context.Response);
 
-            _logger.Log(requestData, responseData);
+            _requestLogger.Log(requestData, responseData);
         }
 
         public override void OnError(HttpContextBase context)
@@ -46,7 +40,7 @@ namespace RequestLogger.Web
             var responseData = ExtractResponseData(context.Response);
             var ex = context.Server.GetLastError();
 
-            _logger.LogError(requestData, responseData, ex);
+            _requestLogger.LogError(requestData, responseData, ex);
         }
 
         private static bool ShouldNotLog(HttpRequestBase request)

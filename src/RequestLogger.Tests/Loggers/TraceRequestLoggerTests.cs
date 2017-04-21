@@ -4,36 +4,35 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using RequestLogger.Loggers;
-using RequestLogger.Wrappers;
 
 namespace RequestLogger.Tests.Loggers
 {
     [TestFixture]
-    public class ConsoleLoggerTests
+    public class TraceRequestLoggerTests
     {
-        private Mock<ISystemConsole> _systemConsole;
-        private ConsoleLogger _logger;
-
         [SetUp]
         public void SetUp()
         {
-            _systemConsole = new Mock<ISystemConsole>();
-            _logger = new ConsoleLogger(_systemConsole.Object);
+            _traceListener = new Mock<ITraceListener>();
+            _requestLogger = new TraceRequestLogger(_traceListener.Object);
         }
 
+        private Mock<ITraceListener> _traceListener;
+        private IRequestLogger _requestLogger;
+
         [Test]
-        public void Log_Should_Write_To_SystemConsole()
+        public void Log_Should_Write_To_TraceListener()
         {
             var requestData = new RequestData();
             var responseData = new ResponseData();
 
-            _logger.Log(requestData, responseData);
+            _requestLogger.Log(requestData, responseData);
 
-            _systemConsole.Verify(x => x.WriteLine(It.IsAny<string>(), It.IsAny<object[]>()), Times.Exactly(8));
+            _traceListener.Verify(x => x.WriteLine(It.IsAny<string>(), It.IsAny<object[]>()), Times.Exactly(8));
         }
 
         [Test]
-        public void Log_Should_Write_RequestData_To_SystemConsole()
+        public void Log_Should_Write_RequestData_To_TraceListener()
         {
             var requestData = new RequestData
             {
@@ -46,24 +45,24 @@ namespace RequestLogger.Tests.Loggers
             };
             var responseData = new ResponseData();
 
-            _logger.Log(requestData, responseData);
+            _requestLogger.Log(requestData, responseData);
 
-            _systemConsole.Verify(x => x.WriteLine(
+            _traceListener.Verify(x => x.WriteLine(
                 "RequestData.HttpMethod: {0}",
                 It.Is<object[]>(o => o.Contains(requestData.HttpMethod))), Times.Once);
-            _systemConsole.Verify(x => x.WriteLine(
-                "RequestData.Url: {0}", 
+            _traceListener.Verify(x => x.WriteLine(
+                "RequestData.Url: {0}",
                 It.Is<object[]>(o => o.Contains(requestData.Url))), Times.Once);
-            _systemConsole.Verify(x => x.WriteLine(
+            _traceListener.Verify(x => x.WriteLine(
                 "RequestData.Header: {0}",
                 It.Is<object[]>(o => o.Contains("Content-Type: [application/json]"))), Times.Once);
-            _systemConsole.Verify(x => x.WriteLine(
-                "RequestData.Content: {0}", 
+            _traceListener.Verify(x => x.WriteLine(
+                "RequestData.Content: {0}",
                 It.Is<object[]>(o => o.Contains(""))), Times.Once);
         }
 
         [Test]
-        public void Log_Should_Write_ResponseData_To_SystemConsole()
+        public void Log_Should_Write_ResponseData_To_TraceListener()
         {
             var requestData = new RequestData();
             var responseData = new ResponseData
@@ -76,32 +75,32 @@ namespace RequestLogger.Tests.Loggers
                 }
             };
 
-            _logger.Log(requestData, responseData);
+            _requestLogger.Log(requestData, responseData);
 
-            _systemConsole.Verify(x => x.WriteLine(
-                "ResponseData.StatusCode: {0}", 
+            _traceListener.Verify(x => x.WriteLine(
+                "ResponseData.StatusCode: {0}",
                 It.Is<object[]>(o => o.Contains(responseData.StatusCode))), Times.Once);
-            _systemConsole.Verify(x => x.WriteLine(
-                "ResponseData.ReasonPhrase: {0}", 
+            _traceListener.Verify(x => x.WriteLine(
+                "ResponseData.ReasonPhrase: {0}",
                 It.Is<object[]>(o => o.Contains(responseData.ReasonPhrase))), Times.Once);
-            _systemConsole.Verify(x => x.WriteLine(
-                "ResponseData.Header: {0}", 
+            _traceListener.Verify(x => x.WriteLine(
+                "ResponseData.Header: {0}",
                 It.Is<object[]>(o => o.Contains("Content-Type: [application/json]"))), Times.Once);
-            _systemConsole.Verify(x => x.WriteLine(
-                "ResponseData.Content: {0}", 
+            _traceListener.Verify(x => x.WriteLine(
+                "ResponseData.Content: {0}",
                 It.Is<object[]>(o => o.Contains(""))), Times.Once);
         }
 
         [Test]
-        public void LogError_Should_Write_Exception_To_SystemConsole()
+        public void LogError_Should_Write_Exception_To_TraceListener()
         {
             var requestData = new RequestData();
             var responseData = new ResponseData();
             var exception = new Exception();
 
-            _logger.LogError(requestData, responseData, exception);
+            _requestLogger.LogError(requestData, responseData, exception);
 
-            _systemConsole.Verify(x => x.WriteError(exception), Times.Once);
+            _traceListener.Verify(x => x.WriteError(exception), Times.Once);
         }
     }
 }

@@ -20,8 +20,8 @@ namespace RequestLogger.Web.Tests
             _response = new Mock<HttpResponseBase>();
             _server = new Mock<HttpServerUtilityBase>();
             _context = new Mock<HttpContextBase>();
-            _logger = new Mock<IRequestLogger>();
-            _module = new RequestLoggerModule(_logger.Object);
+            _requestLogger = new Mock<IRequestLogger>();
+            _module = new RequestLoggerModule(_requestLogger.Object);
 
             _context.SetupGet(x => x.Request).Returns(_request.Object);
             _context.SetupGet(x => x.Response).Returns(_response.Object);
@@ -32,7 +32,7 @@ namespace RequestLogger.Web.Tests
         public void TearDown()
         {
             _module = null;
-            _logger = null;
+            _requestLogger = null;
             _context = null;
             _server = null;
             _response = null;
@@ -43,16 +43,9 @@ namespace RequestLogger.Web.Tests
         private Mock<HttpResponseBase> _response;
         private Mock<HttpServerUtilityBase> _server;
         private Mock<HttpContextBase> _context;
-        private Mock<IRequestLogger> _logger;
+        private Mock<IRequestLogger> _requestLogger;
         private RequestLoggerModule _module;
-
-        [Test]
-        public void Constructor_With_NoParameters_ShouldNot_ThrowException()
-        {
-            // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new RequestLoggerModule());
-        }
-
+        
         [Test]
         public void OnBeginRequest_Should_Set_Response_Filter()
         {
@@ -87,7 +80,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnEndRequest(_context.Object);
 
-            _logger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Once);
+            _requestLogger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Once);
         }
 
         [Test]
@@ -112,14 +105,14 @@ namespace RequestLogger.Web.Tests
 
             _module.OnEndRequest(_context.Object);
 
-            _logger.Verify(x => x.Log(
+            _requestLogger.Verify(x => x.Log(
                     It.Is<RequestData>(r =>
                         r.Header.ContainsKey("Header 1") &&
                         r.Header["Header 1"].Length == 1 &&
                         r.Header["Header 1"][0] == "My Value"),
                     It.IsAny<ResponseData>()),
                 Times.Once);
-            _logger.Verify(x => x.Log(
+            _requestLogger.Verify(x => x.Log(
                     It.Is<RequestData>(r =>
                         r.Header.ContainsKey("Header 2") &&
                         r.Header["Header 2"].Length == 1 &&
@@ -150,14 +143,14 @@ namespace RequestLogger.Web.Tests
 
             _module.OnEndRequest(_context.Object);
 
-            _logger.Verify(x => x.Log(
+            _requestLogger.Verify(x => x.Log(
                     It.IsAny<RequestData>(),
                     It.Is<ResponseData>(r =>
                         r.Header.ContainsKey("Header 1") &&
                         r.Header["Header 1"].Length == 1 &&
                         r.Header["Header 1"][0] == "My Value")),
                 Times.Once);
-            _logger.Verify(x => x.Log(
+            _requestLogger.Verify(x => x.Log(
                     It.IsAny<RequestData>(),
                     It.Is<ResponseData>(r =>
                         r.Header.ContainsKey("Header 2") &&
@@ -181,7 +174,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnEndRequest(_context.Object);
 
-            _logger.Verify(x => x.Log(
+            _requestLogger.Verify(x => x.Log(
                     It.Is<RequestData>(r => r.Content.SequenceEqual(data)),
                     It.IsAny<ResponseData>()),
                 Times.Once);
@@ -203,7 +196,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnEndRequest(_context.Object);
 
-            _logger.Verify(x => x.Log(
+            _requestLogger.Verify(x => x.Log(
                     It.IsAny<RequestData>(),
                     It.Is<ResponseData>(r => r.Content.SequenceEqual(data))),
                 Times.Once);
@@ -216,7 +209,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnEndRequest(_context.Object);
 
-            _logger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Never);
+            _requestLogger.Verify(x => x.Log(It.IsAny<RequestData>(), It.IsAny<ResponseData>()), Times.Never);
         }
 
         [Test]
@@ -237,7 +230,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnError(_context.Object);
 
-            _logger.Verify(x => x.LogError(It.IsAny<RequestData>(), It.IsAny<ResponseData>(), exception), Times.Once);
+            _requestLogger.Verify(x => x.LogError(It.IsAny<RequestData>(), It.IsAny<ResponseData>(), exception), Times.Once);
         }
 
         [Test]
@@ -262,7 +255,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnError(_context.Object);
 
-            _logger.Verify(x => x.LogError(
+            _requestLogger.Verify(x => x.LogError(
                     It.Is<RequestData>(r =>
                         r.Header.ContainsKey("Header 1") &&
                         r.Header["Header 1"].Length == 1 &&
@@ -270,7 +263,7 @@ namespace RequestLogger.Web.Tests
                     It.IsAny<ResponseData>(),
                     It.IsAny<Exception>()),
                 Times.Once);
-            _logger.Verify(x => x.LogError(
+            _requestLogger.Verify(x => x.LogError(
                     It.Is<RequestData>(r =>
                         r.Header.ContainsKey("Header 2") &&
                         r.Header["Header 2"].Length == 1 &&
@@ -302,7 +295,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnError(_context.Object);
 
-            _logger.Verify(x => x.LogError(
+            _requestLogger.Verify(x => x.LogError(
                     It.IsAny<RequestData>(),
                     It.Is<ResponseData>(r =>
                         r.Header.ContainsKey("Header 1") &&
@@ -310,7 +303,7 @@ namespace RequestLogger.Web.Tests
                         r.Header["Header 1"][0] == "My Value"),
                     It.IsAny<Exception>()),
                 Times.Once);
-            _logger.Verify(x => x.LogError(
+            _requestLogger.Verify(x => x.LogError(
                     It.IsAny<RequestData>(),
                     It.Is<ResponseData>(r =>
                         r.Header.ContainsKey("Header 2") &&
@@ -335,7 +328,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnError(_context.Object);
 
-            _logger.Verify(x => x.LogError(
+            _requestLogger.Verify(x => x.LogError(
                     It.Is<RequestData>(r => r.Content.SequenceEqual(data)),
                     It.IsAny<ResponseData>(),
                     It.IsAny<Exception>()),
@@ -358,7 +351,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnError(_context.Object);
 
-            _logger.Verify(x => x.LogError(
+            _requestLogger.Verify(x => x.LogError(
                     It.IsAny<RequestData>(),
                     It.Is<ResponseData>(r => r.Content.SequenceEqual(data)),
                     It.IsAny<Exception>()),
@@ -384,7 +377,7 @@ namespace RequestLogger.Web.Tests
 
             _module.OnError(_context.Object);
 
-            _logger.Verify(x => x.LogError(It.IsAny<RequestData>(), It.IsAny<ResponseData>(), exception), Times.Once);
+            _requestLogger.Verify(x => x.LogError(It.IsAny<RequestData>(), It.IsAny<ResponseData>(), exception), Times.Once);
         }
     }
 }
