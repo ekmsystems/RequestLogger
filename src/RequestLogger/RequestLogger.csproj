@@ -34,11 +34,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Formatters\DefaultHeaderFormatter.cs" />
-    <Compile Include="Formatters\IHeaderFormatter.cs" />
     <Compile Include="IRequestLogger.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />
-    <Compile Include="Loggers\ConsoleLoggerConfiguration.cs" />
     <Compile Include="Loggers\NullLogger.cs" />
     <Compile Include="RequestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
