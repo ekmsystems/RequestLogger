@@ -41,6 +41,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseData.cs" />
     <Compile Include="Wrappers\ConsoleWrapper.cs" />
+    <Compile Include="ISystemConsole.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,13 +2,6 @@
 
 namespace RequestLogger.Wrappers
 {
-    public interface ISystemConsole
-    {
-        void Write(string format, params object[] args);
-        void WriteLine(string format, params object[] args);
-        void WriteError(Exception ex);
-    }
-
     internal class ConsoleWrapper : ISystemConsole
     {
         public void Write(string format, params object[] args)
