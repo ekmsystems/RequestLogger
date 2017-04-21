@@ -44,7 +44,7 @@ after_test:
   - ps: >-
       .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe
       -register:user
-      -filter:"+[*]* -[*]*Wrapper -[*.Tests]*"
+      -filter:"+[*]* -[*]*Wrapper -[RequestLogger.Web]*BaseHttpModule -[*.Tests]*"
       -target:"tools\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe"
       -targetargs:"/domain:single src\RequestLogger.Tests\bin\$env:CONFIGURATION\RequestLogger.Tests.dll src\RequestLogger.Owin.Tests\bin\$env:CONFIGURATION\RequestLogger.Owin.Tests.dll src\RequestLogger.Web.Tests\bin\$env:CONFIGURATION\RequestLogger.Web.Tests.dll"
       -output:opencoverCoverage.xml
