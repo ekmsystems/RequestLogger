@@ -10,15 +10,15 @@ namespace RequestLogger.Tests.Loggers
     [TestFixture]
     public class ConsoleRequestLoggerTests
     {
-        private Mock<ISystemConsole> _systemConsole;
-        private ConsoleRequestLogger _requestLogger;
-
         [SetUp]
         public void SetUp()
         {
             _systemConsole = new Mock<ISystemConsole>();
             _requestLogger = new ConsoleRequestLogger(_systemConsole.Object);
         }
+
+        private Mock<ISystemConsole> _systemConsole;
+        private IRequestLogger _requestLogger;
 
         [Test]
         public void Log_Should_Write_To_SystemConsole()

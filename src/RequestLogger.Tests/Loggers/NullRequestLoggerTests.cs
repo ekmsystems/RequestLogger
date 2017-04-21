@@ -7,19 +7,13 @@ namespace RequestLogger.Tests.Loggers
     [TestFixture]
     public class NullRequestLoggerTests
     {
-        private NullRequestLogger _requestLogger;
-
         [SetUp]
         public void SetUp()
         {
             _requestLogger = new NullRequestLogger();
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            _requestLogger = null;
-        }
+        private NullRequestLogger _requestLogger;
 
         [Test]
         public void Log_Should_Not_Throw_Exception()
