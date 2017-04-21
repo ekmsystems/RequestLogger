@@ -4,21 +4,20 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using RequestLogger.Loggers;
-using RequestLogger.Wrappers;
 
 namespace RequestLogger.Tests.Loggers
 {
     [TestFixture]
-    public class ConsoleLoggerTests
+    public class ConsoleRequestLoggerTests
     {
         private Mock<ISystemConsole> _systemConsole;
-        private ConsoleLogger _logger;
+        private ConsoleRequestLogger _requestLogger;
 
         [SetUp]
         public void SetUp()
         {
             _systemConsole = new Mock<ISystemConsole>();
-            _logger = new ConsoleLogger(_systemConsole.Object);
+            _requestLogger = new ConsoleRequestLogger(_systemConsole.Object);
         }
 
         [Test]
@@ -27,7 +26,7 @@ namespace RequestLogger.Tests.Loggers
             var requestData = new RequestData();
             var responseData = new ResponseData();
 
-            _logger.Log(requestData, responseData);
+            _requestLogger.Log(requestData, responseData);
 
             _systemConsole.Verify(x => x.WriteLine(It.IsAny<string>(), It.IsAny<object[]>()), Times.Exactly(8));
         }
@@ -46,7 +45,7 @@ namespace RequestLogger.Tests.Loggers
             };
             var responseData = new ResponseData();
 
-            _logger.Log(requestData, responseData);
+            _requestLogger.Log(requestData, responseData);
 
             _systemConsole.Verify(x => x.WriteLine(
                 "RequestData.HttpMethod: {0}",
@@ -76,7 +75,7 @@ namespace RequestLogger.Tests.Loggers
                 }
             };
 
-            _logger.Log(requestData, responseData);
+            _requestLogger.Log(requestData, responseData);
 
             _systemConsole.Verify(x => x.WriteLine(
                 "ResponseData.StatusCode: {0}", 
@@ -99,7 +98,7 @@ namespace RequestLogger.Tests.Loggers
             var responseData = new ResponseData();
             var exception = new Exception();
 
-            _logger.LogError(requestData, responseData, exception);
+            _requestLogger.LogError(requestData, responseData, exception);
 
             _systemConsole.Verify(x => x.WriteError(exception), Times.Once);
         }

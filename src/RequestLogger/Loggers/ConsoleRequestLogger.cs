@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RequestLogger.Wrappers;
 
 namespace RequestLogger.Loggers
 {
-    public class ConsoleLogger : IRequestLogger
+    public class ConsoleRequestLogger : IRequestLogger
     {
         private readonly ISystemConsole _systemConsole;
 
-        public ConsoleLogger(ISystemConsole systemConsole = null)
+        public ConsoleRequestLogger(ISystemConsole systemConsole = null)
         {
             _systemConsole = systemConsole;
         }

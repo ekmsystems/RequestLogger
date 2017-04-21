@@ -35,8 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRequestLogger.cs" />
-    <Compile Include="Loggers\ConsoleLogger.cs" />
-    <Compile Include="Loggers\NullLogger.cs" />
+    <Compile Include="Loggers\ConsoleRequestLogger.cs" />
+    <Compile Include="Loggers\NullRequestLogger.cs" />
     <Compile Include="RequestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseData.cs" />

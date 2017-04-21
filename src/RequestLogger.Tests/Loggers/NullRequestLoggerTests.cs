@@ -5,32 +5,32 @@ using RequestLogger.Loggers;
 namespace RequestLogger.Tests.Loggers
 {
     [TestFixture]
-    public class NullLoggerTests
+    public class NullRequestLoggerTests
     {
-        private NullLogger _logger;
+        private NullRequestLogger _requestLogger;
 
         [SetUp]
         public void SetUp()
         {
-            _logger = new NullLogger();
+            _requestLogger = new NullRequestLogger();
         }
 
         [TearDown]
         public void TearDown()
         {
-            _logger = null;
+            _requestLogger = null;
         }
 
         [Test]
         public void Log_Should_Not_Throw_Exception()
         {
-            Assert.DoesNotThrow(() => _logger.Log(new RequestData(), new ResponseData()));
+            Assert.DoesNotThrow(() => _requestLogger.Log(new RequestData(), new ResponseData()));
         }
 
         [Test]
         public void LogError_Should_Not_Throw_Exception()
         {
-            Assert.DoesNotThrow(() => _logger.LogError(new RequestData(), new ResponseData(), new Exception()));
+            Assert.DoesNotThrow(() => _requestLogger.LogError(new RequestData(), new ResponseData(), new Exception()));
         }
     }
 }
