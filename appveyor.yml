@@ -30,14 +30,22 @@ build:
   project: src/RequestLogger.sln
 
 after_build:
-  - cmd: nuget pack src\RequestLogger\RequestLogger.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+  - cmd: >-
+      nuget pack src\RequestLogger\RequestLogger.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
+
+      nuget pack src\RequestLogger.Owin\RequestLogger.Owin.csproj -IncludeReferencedProjects -Build -Version "%GitVersion_NuGetVersion%" -Prop "target=%CONFIGURATION%"
 
 after_test:
   - nuget install NUnit.ConsoleRunner -Version 3.6.1 -OutputDirectory tools
   - nuget install OpenCover -Version 4.6.519 -OutputDirectory tools
   - nuget install coveralls.net -Version 0.7.0 -OutputDirectory tools
   - ps: >-
-      .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]* -[*]*Wrapper -[*.Tests]*" -target:"tools\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe" -targetargs:"/domain:single src\RequestLogger.Tests\bin\$env:CONFIGURATION\RequestLogger.Tests.dll" -output:opencoverCoverage.xml
+      .\tools\OpenCover.4.6.519\tools\OpenCover.Console.exe
+      -register:user
+      -filter:"+[*]* -[*]*Wrapper -[*.Tests]*"
+      -target:"tools\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe"
+      -targetargs:"/domain:single src\RequestLogger.Tests\bin\$env:CONFIGURATION\RequestLogger.Tests.dll src\RequestLogger.Owin.Tests\bin\$env:CONFIGURATION\RequestLogger.Owin.Tests.dll"
+      -output:opencoverCoverage.xml
 
       $coveralls = (Resolve-Path "tools/coveralls.net.*/tools/csmacnz.coveralls.exe").ToString()
 
