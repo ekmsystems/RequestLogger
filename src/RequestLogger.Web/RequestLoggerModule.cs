@@ -3,19 +3,13 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Web;
-using RequestLogger.Loggers;
 
 namespace RequestLogger.Web
 {
     public class RequestLoggerModule : BaseHttpModule
     {
         private readonly IRequestLogger _logger;
-
-        public RequestLoggerModule()
-            : this(new NullLogger())
-        {
-        }
-
+        
         public RequestLoggerModule(IRequestLogger logger)
         {
             _logger = logger;

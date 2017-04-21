@@ -63,10 +63,6 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RequestLogger, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RequestLogger.1.2.0\lib\net35\RequestLogger.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
@@ -91,6 +87,10 @@
     <ProjectReference Include="..\RequestLogger.Owin\RequestLogger.Owin.csproj">
       <Project>{cf9797f4-d629-4809-9ce3-9995efdaf9d3}</Project>
       <Name>RequestLogger.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RequestLogger\RequestLogger.csproj">
+      <Project>{95400851-339f-4893-99bf-3264bddf2502}</Project>
+      <Name>RequestLogger</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

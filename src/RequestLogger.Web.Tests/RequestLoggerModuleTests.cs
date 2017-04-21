@@ -45,14 +45,7 @@ namespace RequestLogger.Web.Tests
         private Mock<HttpContextBase> _context;
         private Mock<IRequestLogger> _logger;
         private RequestLoggerModule _module;
-
-        [Test]
-        public void Constructor_With_NoParameters_ShouldNot_ThrowException()
-        {
-            // ReSharper disable once ObjectCreationAsStatement
-            Assert.DoesNotThrow(() => new RequestLoggerModule());
-        }
-
+        
         [Test]
         public void OnBeginRequest_Should_Set_Response_Filter()
         {
