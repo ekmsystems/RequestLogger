@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using RequestLogger.Formatters;
 using RequestLogger.Loggers;
 using RequestLogger.Wrappers;
 
@@ -13,27 +12,13 @@ namespace RequestLogger.Tests.Loggers
     public class ConsoleLoggerTests
     {
         private Mock<ISystemConsole> _systemConsole;
-        private Mock<IHeaderFormatter> _headerFormatter;
         private ConsoleLogger _logger;
 
         [SetUp]
         public void SetUp()
         {
             _systemConsole = new Mock<ISystemConsole>();
-            _headerFormatter = new Mock<IHeaderFormatter>();
-            _logger = new ConsoleLogger(new ConsoleLoggerConfiguration
-            {
-                SystemConsole = _systemConsole.Object,
-                HeaderFormatter = _headerFormatter.Object
-            });
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _logger = null;
-            _headerFormatter = null;
-            _systemConsole = null;
+            _logger = new ConsoleLogger(_systemConsole.Object);
         }
 
         [Test]
@@ -54,7 +39,10 @@ namespace RequestLogger.Tests.Loggers
             {
                 HttpMethod = "GET",
                 Url = new Uri("http://localhost/test.aspx"),
-                Header = new Dictionary<string, string[]>()
+                Header = new Dictionary<string, string[]>
+                {
+                    {"Content-Type", new[] {"application/json"}}
+                }
             };
             var responseData = new ResponseData();
 
@@ -68,7 +56,7 @@ namespace RequestLogger.Tests.Loggers
                 It.Is<object[]>(o => o.Contains(requestData.Url))), Times.Once);
             _systemConsole.Verify(x => x.WriteLine(
                 "RequestData.Header: {0}",
-                It.Is<object[]>(o => o.Contains(null))), Times.Once);
+                It.Is<object[]>(o => o.Contains("Content-Type: [application/json]"))), Times.Once);
             _systemConsole.Verify(x => x.WriteLine(
                 "RequestData.Content: {0}", 
                 It.Is<object[]>(o => o.Contains(""))), Times.Once);
@@ -82,7 +70,10 @@ namespace RequestLogger.Tests.Loggers
             {
                 StatusCode = 200,
                 ReasonPhrase = "OK",
-                Header = new Dictionary<string, string[]>()
+                Header = new Dictionary<string, string[]>
+                {
+                    {"Content-Type", new[] {"application/json"}}
+                }
             };
 
             _logger.Log(requestData, responseData);
@@ -95,7 +86,7 @@ namespace RequestLogger.Tests.Loggers
                 It.Is<object[]>(o => o.Contains(responseData.ReasonPhrase))), Times.Once);
             _systemConsole.Verify(x => x.WriteLine(
                 "ResponseData.Header: {0}", 
-                It.Is<object[]>(o => o.Contains(null))), Times.Once);
+                It.Is<object[]>(o => o.Contains("Content-Type: [application/json]"))), Times.Once);
             _systemConsole.Verify(x => x.WriteLine(
                 "ResponseData.Content: {0}", 
                 It.Is<object[]>(o => o.Contains(""))), Times.Once);
