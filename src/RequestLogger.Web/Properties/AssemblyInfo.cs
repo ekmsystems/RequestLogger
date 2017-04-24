@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("RequestLogger.Web")]
 [assembly: AssemblyDescription("Module for logging request and response data")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Steven Atkinson")]
+[assembly: AssemblyCompany("mrstebo, ekmsystems")]
 [assembly: AssemblyProduct("RequestLogger.Web")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]

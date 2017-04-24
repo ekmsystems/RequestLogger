@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("RequestLogger")]
 [assembly: AssemblyDescription("Module for logging request and response data")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Steven Atkinson")]
+[assembly: AssemblyCompany("mrstebo, ekmsystems")]
 [assembly: AssemblyProduct("RequestLogger")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
